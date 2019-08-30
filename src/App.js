@@ -15,12 +15,25 @@ class Post extends React.Component{
   }
 }
 
-class Square extends React.Component {
-  render() {
-    return (
-      <button className="square" onClick={function() { alert('kk eae man'); }}>
-        {this.props.value}
-      </button>
+class Form extends React.Component{
+  render(){
+    return(
+      <div>
+          <label>Id</label>
+          <input type="text" id="id" name="id"></input>
+
+          <label>Titulo</label>
+          <input type="text" id="titulo" name="titulo"></input>
+
+          <label>Url da Imagem</label>
+          <input type="text" id="img" name="img"></input>
+
+          <button onClick={() => this.props.addpost(
+            document.getElementById("id").value,
+            document.getElementById("titulo").value,
+            document.getElementById("img").value
+          )}>Adicionar</button>
+      </div>
     );
   }
 }
@@ -32,6 +45,7 @@ class App extends React.Component {
       posts: objeto.posts
     }
 
+    this._adicionarPost = this._adicionarPost.bind(this)
     this._excluirPost = this._excluirPost.bind(this)
 
   }
@@ -40,6 +54,16 @@ class App extends React.Component {
     var posts = this.state.posts.filter(function(valor){
       return valor.id != id;
     });
+    this.setState({posts})
+  }
+
+  _adicionarPost(id, titulo, url_imagem){
+    var posts = this.state.posts;
+    posts.push({
+      "id": id,
+      "titulo": titulo,
+      "url": url_imagem
+    })
     this.setState({posts})
   }
  
@@ -58,8 +82,7 @@ class App extends React.Component {
             />
           )
         }
-
-        <Square value="rafa legal" msg="oi rafa"/>
+        <Form addpost = {this._adicionarPost}/>
       </div>
     );
   }
