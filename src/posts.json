@@ -1,0 +1,19 @@
+{
+    "posts":[
+        {
+            "id": 1,
+            "url": "https://pt-br.reactjs.org/static/tictac-empty-1566a4f8490d6b4b1ed36cd2c11fe4b6-a9336.png",
+            "titulo": "Post 1"
+        },
+        {
+            "id": 2,
+            "url": "https://pt-br.reactjs.org/static/tictac-empty-1566a4f8490d6b4b1ed36cd2c11fe4b6-a9336.png",
+            "titulo": "Post 2"
+        },
+        {
+            "id": 3,
+            "url": "https://pt-br.reactjs.org/static/tictac-empty-1566a4f8490d6b4b1ed36cd2c11fe4b6-a9336.png",
+            "titulo": "Post 3"
+        }
+    ]
+}
