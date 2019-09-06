@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import objeto from './posts.json';
+import Axios from 'axios';
 
 class Post extends React.Component{
   render(){
@@ -15,41 +16,28 @@ class Post extends React.Component{
   }
 }
 
-class Form extends React.Component{
-  render(){
-    return(
-      <div>
-          <label>Id</label>
-          <input type="text" id="id" name="id"></input>
-
-          <label>Titulo</label>
-          <input type="text" id="titulo" name="titulo"></input>
-
-          <label>Url da Imagem</label>
-          <input type="text" id="img" name="img"></input>
-
-          <button onClick={() => this.props.addpost(
-            document.getElementById("id").value,
-            document.getElementById("titulo").value,
-            document.getElementById("img").value
-          )}>Adicionar</button>
-      </div>
-    );
-  }
-}
-
 class App extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      posts: objeto.posts
+      posts: [],
+      titulo: "",
+      url: ""
     }
 
     this._adicionarPost = this._adicionarPost.bind(this)
     this._excluirPost = this._excluirPost.bind(this)
 
+    Axios.get('https://www.mocky.io/v2/5d7193e0330000f7cf7799a1').then((result) => {
+      this.setState({posts: result.data.posts})
+    })
+
+    /*
+    Axios.post('url', {
+      //Data for post
+    }) */
   }
-  
+ 
   _excluirPost(id){
     var posts = this.state.posts.filter(function(valor){
       return valor.id != id;
@@ -57,16 +45,21 @@ class App extends React.Component {
     this.setState({posts})
   }
 
-  _adicionarPost(id, titulo, url_imagem){
+  _adicionarPost(){
+    console.log(this.state.url);
     var posts = this.state.posts;
+    var id = 1;
+    if(this.state.posts.length > 0){
+      var id = this.state.posts[this.state.posts.length-1].id+1;
+    }
     posts.push({
       "id": id,
-      "titulo": titulo,
-      "url": url_imagem
+      "titulo": this.state.titulo,
+      "url": this.state.url
     })
     this.setState({posts})
   }
- 
+
   render(){
     return (
       <div className="App">
@@ -82,7 +75,22 @@ class App extends React.Component {
             />
           )
         }
-        <Form addpost = {this._adicionarPost}/>
+
+        <div className="form-control">
+
+          <label for="titulo">Titulo</label>
+          <input type="text" id="titulo" name="titulo" onChange={(e) => {
+            this.setState({titulo: e.target.value})
+          }}/>
+          <label for="img">Url da Imagem</label>
+          <input type="text" id="img" name="img" onChange={(e) => {
+            this.setState({url: e.target.value})
+          }}/>
+          </div>
+        <div>
+          <button className="btn btn-success" onClick={() => this._adicionarPost()}>Adicionar</button>
+        </div>
+
       </div>
     );
   }
